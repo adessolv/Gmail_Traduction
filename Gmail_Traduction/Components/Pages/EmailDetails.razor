@@ -1,0 +1,81 @@
+﻿@page "/gmail/{id}"
+@rendermode InteractiveServer
+
+@using Gmail_Traduction.Services
+@inject GmailApiService GmailApiService
+@inject NavigationManager navManager
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private GmailApiService.EmailDetail email;
+
+    protected override async Task OnInitializedAsync()
+    {
+        email = await GmailApiService.GetEmailById(Id);
+    }
+
+    private void GoBack()
+    {
+        navManager.NavigateTo("/gmail");
+    }
+
+    public decimal CalculateEstimatedTime()
+    {
+        if (email.Service == "Translation" && email.StandardWords > 0)
+        {
+            return email.StandardWords / 250;
+        }
+        if (email.Service == "Revision" && email.TotalWords > 0)
+        {
+            return email.TotalWords / 800;
+        }
+        if (email.Service == "MT Post Edit" && email.StandardWords > 0)
+        {
+            return email.StandardWords / 450;
+        }
+        return 0;
+    }
+}
+
+@if (email != null && !string.IsNullOrEmpty(email.Service) && !string.IsNullOrEmpty(email.Deadline))
+{
+    <MudCard Style="margin: 20px;">
+        <MudCardContent>
+            @if (!string.IsNullOrEmpty(email.Service))
+            {
+                <MudText Typo="Typo.body1"><b>Service:</b> @email.Service</MudText>
+            }
+            @if (!string.IsNullOrEmpty(email.Deadline))
+            {
+                <MudText Typo="Typo.body1"><b>Deadline:</b> @email.Deadline</MudText>
+            }
+            @if (email.TotalWords > 0)
+            {
+                <MudText Typo="Typo.body1"><b>Total words:</b> @email.TotalWords</MudText>
+            }
+            @if (email.StandardWords > 0)
+            {
+                <MudText Typo="Typo.body1"><b>Standard words:</b> @email.StandardWords</MudText>
+            }
+            <MudText Typo="Typo.body1"><b>Estimated time:</b> @($"{CalculateEstimatedTime():0.##} hours")</MudText>
+        </MudCardContent>
+    </MudCard>
+}
+<MudButton Variant="Variant.Filled" Style="margin-left: 20px;" Color="Color.Warning" OnClick="GoBack">Back</MudButton>
+
+<MudCard Style="margin: 20px;">
+    <MudCardContent>
+        @if (email != null)
+        {
+            <MudText Typo="Typo.h6">From: @email.Sender</MudText>
+            <MudText Typo="Typo.h6">Subject: @email.Subject</MudText>
+            <MudText Typo="Typo.body1">@((MarkupString)email.Body)</MudText>
+        }
+        else
+        {
+            <MudText Typo="Typo.h6">Loading...</MudText>
+        }
+    </MudCardContent>
+</MudCard>

@@ -1,0 +1,9 @@
+{
+  "access_token": "ya29.a0AXooCgtUnl8Tn9ZH5cRCNS6CjGpdQtzCQb4yQSOJcdrXnsHsAu5QHwwog8QHO7ESKEJvpv1yPsemSGJEqF4D7kZX-DHTMHh-cIsIY7pOjBz-jqHM2wBuWDhfYhuubMXoLaMlQHYp17ezzUwMtniHb1UQIjy0mUIAcupge4gaCgYKAaESARASFQHGX2MiGR-26J1MKjKqtHxIuhii_A0174",
+  "expires_in": 3599,
+  "Issued": "2024-07-05T12:50:41.501+02:00",
+  "IssuedUtc": "2024-07-05T10:50:41.501Z",
+  "refresh_token": "1//0cLpBF0A0nnnZCgYIARAAGAwSNwF-L9Ir9lukcdqxQKqR6lwbjVThWRJhlu6El7X9AfSnalnvYYx95TII7QgW2HcNGIOpOOJQWD4",
+  "scope": "https://www.googleapis.com/auth/gmail.readonly",
+  "token_type": "Bearer"
+}

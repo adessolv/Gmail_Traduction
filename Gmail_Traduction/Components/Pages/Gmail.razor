@@ -1,0 +1,71 @@
+﻿@page "/gmail"
+@rendermode InteractiveServer
+
+@using Gmail_Traduction.Services
+@using static Gmail_Traduction.Services.GmailApiService
+
+@inject GmailApiService GmailApiService
+@inject NavigationManager navManager
+@inject AppState AppState
+
+<PageTitle>Emails from Specific Domain</PageTitle>
+
+<MudButton Variant="Variant.Filled" Style="margin: 20px;" Color="Color.Primary" OnClick="GetEmails">Get Emails</MudButton>
+
+<div class="email-cards" style="display: flex; flex-wrap: wrap; margin: 20px;">
+@if (emails != null)
+{
+        @foreach (var email in emails)
+        {
+            <MudCard Style="@GetCardStyle()">
+                <MudCardContent>
+                    <MudText Typo="Typo.body1" Style="font-size:large; font-weight:700">From: @email.Sender</MudText>
+                    <MudText Typo="Typo.body2" Style="font-size:medium">Subject: @email.Subject</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Filled" Color="Color.Dark" OnClick="@(() => OpenEmail(email.Id))">Read More</MudButton>
+                </MudCardActions>
+                @if (email.Id == selectedEmail?.Id)
+                {
+                    <MudCardContent>
+                        <MudText Typo="Typo.body1">@((MarkupString)selectedEmail.Body)</MudText>
+                    </MudCardContent>
+                }
+            </MudCard>
+        }
+}
+</div>
+
+@code {
+    private List<EmailDetail> emails;
+    private EmailDetail selectedEmail;
+    private static readonly string[] colors = { "#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "#bdb2ff", "#ffc6ff" };
+    private static readonly Random random = new Random();
+
+    protected override void OnInitialized()
+    {
+        emails = AppState.Emails;
+    }
+
+    private async Task GetEmails()
+    {
+        emails = await GmailApiService.GetEmailsFromDomain("acolad.com", new string[] { "Translation", "Revision", "MT Post Edit" }, 20);
+        AppState.Emails = emails;
+    }
+
+    private string GetCardStyle()
+    {
+        var color = GetRandomColor();
+        return $"margin: 10px; width: 300px; background-color: {color};";
+    }
+
+    private void OpenEmail(string id)
+    {
+        navManager.NavigateTo($"/gmail/{id}");
+    }
+
+    private string GetRandomColor()
+    {
+        return colors[random.Next(colors.Length)];
+    }
+}

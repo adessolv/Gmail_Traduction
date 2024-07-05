@@ -1,0 +1,41 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider  />
+<MudDialogProvider  />
+<MudSnackbarProvider  />
+
+<MudLayout >
+    <MudAppBar Elevation="1">
+         <MudText Typo="Typo.h5" Class="ml-3">Traduction</MudText>
+        @if (AppBarContent is not null)
+        {
+            @AppBarContent
+        }
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+    </MudLayout>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? AppBarContent { get; set; }
+
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
