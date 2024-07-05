@@ -49,7 +49,7 @@
 
     private async Task GetEmails()
     {
-        emails = await GmailApiService.GetEmailsFromDomain("acolad.com", new string[] { "Translation", "Revision", "MT Post Edit" }, 20);
+        emails = await GmailApiService.GetEmailsFromDomain("[YOURDOMAIN].com", new string[] { "Translation", "Revision", "MT Post Edit" }, 20);
         AppState.Emails = emails;
     }
 
