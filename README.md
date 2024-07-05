@@ -71,3 +71,7 @@ This project is licensed under the MIT License.
 ## Contact
 
 For any questions or suggestions, please contact the project maintainer at [adesso.sevici@gmail.com].
+
+## Screenshot
+![image](https://github.com/adessolv/Gmail_Traduction/assets/148480/e7945a06-e79a-4e36-b1ae-a6f177d1e0f6)
+
